@@ -87,3 +87,27 @@ const crearReserva = (req, res) => {
         );
     }
 };
+
+// Listar todas las reservas
+const consultarReservas = (req, res) => {
+    try {
+       
+        if (reservas.length === 0) {
+            throw new Error('No hay reservas');
+        };
+
+        return res.status(200).json(
+            {
+                msg: 'Consulta exitosa',
+                data: reservas
+            }
+        );
+
+    } catch (error) {
+        return res.status(404).json(
+           {
+                msg: error.message 
+           }
+       );
+    };
+};
