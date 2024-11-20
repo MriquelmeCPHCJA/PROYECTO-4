@@ -14,7 +14,7 @@
 </div>
 
 
-🏨  **¡Bienvenido al repositorio de nuestro proyecto de reservas hoteleras!**
+🏨  **¡Bienvenido al repositorio de mi proyecto de reservas hoteleras!**
 
 En este proyecto se ha desarrollado una aplicación web que permite gestionar las reservas de un hotel. He implementado las operaciones CRUD básicas y añadido funcionalidades adicionales para filtrar y buscar información.
 
