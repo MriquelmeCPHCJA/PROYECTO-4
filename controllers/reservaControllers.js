@@ -373,3 +373,17 @@ const obtenerReservaPorFechas = (req, res) => {
     };
     
 };
+
+// Exportación de los métodos
+module.exports = { 
+    crearReserva,
+    consultarReservas,
+    consultarReservasPorId,
+    actualizaReserva,
+    eliminaReserva,
+    reservasPorHotel,
+    estadoReserva,
+    reservaPorHabitacion,
+    numeroHuespedes,
+    obtenerReservaPorFechas
+};
