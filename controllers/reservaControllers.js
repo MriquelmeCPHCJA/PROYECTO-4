@@ -192,3 +192,34 @@ const eliminaReserva = (req, res) => {
     };
 
 };
+
+// Filtro de reservas por hotel
+const reservasPorHotel = (req, res) => {
+    
+    try {
+        const { hotel } = req.query;
+
+        if (!hotel){
+
+            throw new Error('Hotel(es) no encontrado(s)')
+
+        }
+        
+        const filtroHotel = data.reservas.filter(r => r.hotel.toLowerCase() === hotel.toLowerCase())
+
+        return res.json(
+            { 
+                msg: 'Hotel(es) encontrado(s)', 
+                data: filtroHotel
+            }
+        );
+        
+    } catch (error) {
+        return res.status(404).json(
+            {
+                msg: error.message
+            }
+        );
+    }
+    
+};
