@@ -137,3 +137,30 @@ const consultarReservasPorId = (req, res) => {
        );
     };
 };
+
+// Actualizar una reserva
+const actualizaReserva = (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const reservaIndex = reservas.findIndex(r => r.id === id);
+
+        if (reservaIndex === -1) {
+            throw new Error('Reserva no encontrada');
+        }
+     
+        reservas[reservaIndex] = { ...reservas[reservaIndex], ...req.body };
+
+          return res.status(201).json({
+                    msg: "Reserva actualizada con éxito",
+                    data: reservas[reservaIndex],
+          });
+      
+    } catch (error) {
+       return res.status(404).json(
+          {
+               msg: error.message
+          }
+      );
+    }
+
+};
