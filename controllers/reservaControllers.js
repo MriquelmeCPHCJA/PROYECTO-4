@@ -259,3 +259,39 @@ const estadoReserva = (req, res) => {
 
     
 };
+
+// Filtro Query de reservas por tipo de habitación
+const reservaPorHabitacion = (req, res) => {
+    
+    try {
+
+        const { tipoHabitacion } = req.query;
+
+        if (!tipoHabitacion) {
+
+            throw new Error('Tipo de habitación no puede estar vacío');
+
+        } else if (tipoHabitacion.toLowerCase() != 'suite' && tipoHabitacion.toLowerCase() != 'individual' && tipoHabitacion.toLowerCase() != 'familiar' && tipoHabitacion.toLowerCase() !=  'doble'){
+
+            throw new Error('No existe el tipo de habitación');
+
+        }
+
+        const filtroTipoHabitacion = data.reservas.filter(reserva => reserva.tipoHabitacion.toLowerCase() === tipoHabitacion.toLowerCase());
+
+        return res.status(200).json(
+            { 
+                msg: 'Reserva(s) encontrada(s)', 
+                data: filtroTipoHabitacion
+            }
+        )
+        
+    } catch (error) {
+        return res.status(404).json(
+            {
+                msg: error.message
+            }
+        )
+    }
+    
+};
