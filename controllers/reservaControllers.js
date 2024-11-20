@@ -295,3 +295,38 @@ const reservaPorHabitacion = (req, res) => {
     }
     
 };
+
+// filtro Query de reservas por cantidad de huéspedes
+const numeroHuespedes = (req, res) => {
+    
+    try {
+
+        const { cantidadHuespedes } = req.query;
+
+        const filtroHuespedes = data.reservas.filter(reserva => reserva.cantidadHuespedes == cantidadHuespedes);
+
+        if (!cantidadHuespedes) {
+
+            throw new Error('Número de Huespedes no puede estar vacío');
+
+        } else if (cantidadHuespedes <= 0) {
+
+            throw new Error('Número de Huéspedes Inválido')
+        }
+
+        return res.status(200).json(
+            { 
+                msg: 'Reserva(s) encontrada(s)', 
+                data: filtroHuespedes
+            }
+        )
+        
+    } catch (error) {
+        return res.status(404).json(
+            {
+                msg: error.message
+            }
+        )
+    }
+    
+};
