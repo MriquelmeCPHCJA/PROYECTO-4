@@ -111,3 +111,29 @@ const consultarReservas = (req, res) => {
        );
     };
 };
+
+// Consultar una reserva por ID
+const consultarReservasPorId = (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const reserva = reservas.find(r => r.id === id);
+
+        if (!reserva) {
+            throw new Error('Reserva no encontrada');
+        };
+
+        return res.status(200).json(
+            {
+                msg: 'Consulta exitosa',
+                reserva: reserva
+            }
+        );
+
+    } catch (error) {
+        return res.status(404).json(
+           { 
+               msg: error.message
+           }
+       );
+    };
+};
