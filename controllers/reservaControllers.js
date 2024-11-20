@@ -330,3 +330,46 @@ const numeroHuespedes = (req, res) => {
     }
     
 };
+
+// filtro Query de reservas por rangos de fechas
+const obtenerReservaPorFechas = (req, res) => {
+
+    try {
+        
+        const { fechaInicio, fechaTermino } = req.query;
+
+        const fechaInicioFormateada = new Date(fechaInicio);
+        const FechaTerminoFormateada = new Date(fechaTermino);
+
+        if (!fechaInicio || !fechaTermino) {
+
+            throw new Error('Debe ingresa las fechas de Inicio y Termino de la reserva')
+
+        };
+        
+        if (fechaInicioFormateada > FechaTerminoFormateada) {
+
+            throw new Error('La fecha de Inicio no puede ser mayor a la fecha de Termino')
+            
+        };
+
+
+             const reservasFiltradas = data.reservas.filter(r => {
+            const inicioReserva = new Date(r.fechaInicio);
+            const terminoReserva = new Date(r.fechaTermino);
+
+            return inicioReserva >= fechaInicioFormateada && terminoReserva <= FechaTerminoFormateada;
+        });
+
+        res.json(reservasFiltradas);
+    
+    } catch (error) {
+
+        return res.status(400).json(
+            {
+                msg: error.message
+            }
+        );
+    };
+    
+};
