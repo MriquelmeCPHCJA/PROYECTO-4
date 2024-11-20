@@ -1,0 +1,50 @@
+{
+    "reservas": [
+      {
+        "id": 1,
+        "fechaInicio": "2024-11-20",
+        "fechaTermino": "2024-11-25",
+        "cantidadHuespedes": 2,
+        "hotel": "Hotel Sol y Mar",
+        "tipoHabitacion": "Suite",
+        "estado": "Confirmada"
+      },
+      {
+        "id": 2,
+        "fechaInicio": "2024-12-01",
+        "fechaTermino": "2024-12-05",
+        "cantidadHuespedes": 1,
+        "hotel": "Hotel Luna Azul",
+        "tipoHabitacion": "Individual",
+        "estado": "Pendiente"
+      },
+      {
+        "id": 3,
+        "fechaInicio": "2024-11-22",
+        "fechaTermino": "2024-11-26",
+        "cantidadHuespedes": 4,
+        "hotel": "Hotel Estrella del Norte",
+        "tipoHabitacion": "Familiar",
+        "estado": "Cancelada"
+      },
+      {
+        "id": 4,
+        "fechaInicio": "2024-12-10",
+        "fechaTermino": "2024-12-15",
+        "cantidadHuespedes": 3,
+        "hotel": "Hotel Paraíso Tropical",
+        "tipoHabitacion": "Doble",
+        "estado": "Confirmada"
+      },
+      {
+        "id": 5,
+        "fechaInicio": "2024-12-10",
+        "fechaTermino": "2024-12-15",
+        "cantidadHuespedes": 2,
+        "hotel": "Hotel Paraíso Tropical",
+        "tipoHabitacion": "Doble",
+        "estado": "Pendiente"
+      }
+      
+     ]
+  }
