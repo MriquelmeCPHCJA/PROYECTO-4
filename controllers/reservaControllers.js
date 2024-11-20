@@ -193,7 +193,7 @@ const eliminaReserva = (req, res) => {
 
 };
 
-// Filtro de reservas por hotel
+// Filtro Query de reservas por hotel
 const reservasPorHotel = (req, res) => {
     
     try {
@@ -221,5 +221,41 @@ const reservasPorHotel = (req, res) => {
             }
         );
     }
+    
+};
+
+// Filtro Query de reservas por estado "pendiente", "confirmada", "cancelada"
+const estadoReserva = (req, res) => {
+    
+    try {
+
+        const { estado } = req.query;
+
+        if (!estado) {
+
+            throw new Error('El Estado de Reserva no puede estar vacío');
+
+        } else if (estado.toLowerCase() != 'pendiente' && estado.toLowerCase() != 'cancelada' && estado.toLowerCase() != 'confirmada') {
+
+            throw new Error('Estado de Reserva Inválido')
+        };
+
+        const filtroEstado = data.reservas.filter(reserva => reserva.estado.toLowerCase() === estado.toLowerCase());
+
+        return res.status(200).json(
+            { 
+                msg: 'Reserva(s) encontrada(s)', 
+                data: filtroEstado
+            }
+        )
+        
+    } catch (error) {
+        return res.status(404).json(
+            {
+                msg: error.message
+            }
+        )
+    }
+
     
 };
