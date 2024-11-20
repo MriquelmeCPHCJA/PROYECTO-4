@@ -1,0 +1,445 @@
+openapi: 3.0.3
+info:
+  title: Reservas Hoteleras
+  description: En este proyecto, se construyó una aplicación de servicios CRUD para la industria hotelera, específicamente para la gestión de reservas. Además, se incluyó un sistema de búsqueda.
+  contact:
+    email: marcelo.riquelme@cph-cja.cl
+  version: 1.0.0
+servers:
+  - url: http://localhost:3500/api
+paths:
+  /api/reservas:
+    post:
+      tags:
+        - Reservas
+      summary: Crear una nueva reserva
+      description: Crea una nueva reserva con los datos proporcionados.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fechaInicio:
+                  type: string
+                  format: date
+                  description: Fecha de inicio de la reserva.
+                fechaTermino:
+                  type: string
+                  format: date
+                  description: Fecha de término de la reserva.
+                cantidadHuespedes:
+                  type: integer
+                  minimum: 1
+                  description: Cantidad de huéspedes.
+                hotel:
+                  type: string
+                  description: Nombre del hotel.
+                tipoHabitacion:
+                  type: string
+                  enum: [suite, individual, familiar, doble]
+                  description: Tipo de habitación.
+                estado:
+                  type: string
+                  enum: [pendiente, cancelada, confirmada]
+                  description: Estado de la reserva.
+      responses:
+        '201':
+          description: Reserva creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '400':
+          description: Error de validación.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example:
+                      - Todos los campos son obligatorios
+                      - La fecha de Inicio no puede ser mayor a la fecha de Termino
+                      - Cantidad de Huéspedes Inválida
+                      - Estado de Reserva Inválido
+                      - Tipo de Habitación Inválido
+                      - Excepción de Validación
+
+    get:
+      tags:
+        - Reservas
+      summary: Consultar todas las reservas
+      description: Obtiene una lista de todas las reservas existentes.
+      responses:
+        '200':
+          description: Lista de reservas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
+        '404':
+          description: No se encontraron reservas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: No hay reservas 
+
+  /reservas/{id}:
+    get:
+      tags:
+        - Reservas
+      summary: Consultar una reserva por ID
+      description: Obtiene los detalles de una reserva específica identificada por su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Identificador único de la reserva.
+      responses:
+        '200':
+          description: Reserva encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Reserva no encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Reserva no encontrada
+
+    put:
+      tags:
+        - Reservas
+      summary: Actualizar una reserva
+      description: Actualiza los datos de una reserva existente.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Identificador único de la reserva.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Reserva'
+      responses:
+        '201':
+          description: Reserva actualizada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Reserva no encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Reserva no encontrada
+
+    delete:
+      tags:
+        - Reservas
+      summary: Eliminar una reserva
+      description: Elimina una reserva existente identificada por su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Identificador único de la reserva.
+      responses:
+        '200':
+          description: Reserva eliminada exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '404':
+          description: Reserva no encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Reserva no encontrada
+
+  /reservasPorHotel:
+    get:
+      tags:
+        - Reservas
+      summary: Consultar reservas por hotel
+      description: Obtiene una lista de reservas para un hotel específico.
+      parameters:
+        - in: query
+          name: hotel
+          description: Nombre del hotel a buscar.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservas encontradas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Hotel(es) encontrado(s)
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Hotel no encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Hotel(es) no encontrado(s)
+
+  /reservasPorEstado:
+    get:
+      tags:
+        - Reservas
+      summary: Consultar reservas por estado
+      description: Obtiene una lista de reservas con un estado específico.
+      parameters:
+        - in: query
+          name: estado
+          description: Estado de la reserva (pendiente, cancelada, confirmada).
+          required: true
+          schema:
+            type: string
+            enum:
+              - pendiente
+              - cancelada
+              - confirmada
+      responses:
+        '200':
+          description: Reservas encontradas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Reserva(s) encontrada(s)
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Estado de reserva inválido.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Estado de Reserva Inválido
+
+  /reservasPorHabitacion:
+    get:
+      tags:
+        - Reservas
+      summary: Consultar reservas por tipo de habitación
+      description: Obtiene una lista de reservas con un tipo de habitación específico.
+      parameters:
+        - in: query
+          name: tipoHabitacion
+          description: Tipo de habitación (suite, individual, familiar, doble).
+          required: true
+          schema:
+            type: string
+            enum:
+              - suite
+              - individual
+              - familiar
+              - doble
+      responses:
+        '200':
+          description: Reservas encontradas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Reserva(s) encontrada(s)
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Tipo de habitación inválido.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: No existe el tipo de habitación
+
+  /reservasPorHuesped:
+    get:
+      tags:
+        - Reservas
+      summary: Consultar reservas por cantidad de huéspedes
+      description: Obtiene una lista de reservas con una cantidad específica de huéspedes.
+      parameters:
+        - in: query
+          name: cantidadHuespedes
+          description: Cantidad de huéspedes.
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Reservas encontradas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Reserva(s) encontrada(s)
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Número de huéspedes inválido.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Número de Huespedes Inválido
+
+  /reservasPorFechas:
+    get:
+      tags:
+        - Reservas
+      summary: Consultar reservas por rango de fechas
+      description: Obtiene una lista de reservas dentro de un rango de fechas específico.
+      parameters:
+        - in: query
+          name: fechaInicio
+          description: Fecha de inicio de la reserva (formato ISO 8601).
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: fechaTermino
+          description: Fecha de término de la reserva (formato ISO 8601).
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Reservas encontradas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
+        '400':
+          description: Error en las fechas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Debe ingresar las fechas de Inicio y Termino de la reserva
+
+
+
+components:
+  schemas:
+    Reserva:
+      required:
+        - id
+        - fechaInicio
+        - fechaTermino
+        - cantidadHuespedes
+        - hotel
+        - tipoHabitacion
+        - estado
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fechaInicio:
+          type: string
+          example: 2024-01-25
+        fechaTermino:
+          type: string
+          example: 2024-01-25
+        cantidadHuespedes:
+          type: integer
+          example: 3
+        hotel:
+          type: string
+          example: Hotel Sol de Oro
+        tipoHabitacion:
+          type: string
+          enum:
+            - Individual
+            - Doble
+            - Familiar
+            - Suite
+        estado:
+          type: string
+          enum:
+            - Pendiente
+            - Confirmado
+            - Cancelado
