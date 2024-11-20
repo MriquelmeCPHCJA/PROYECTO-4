@@ -1,5 +1,5 @@
 // Autor: Luis Marcelo Riquelme
-// Proyecto: Reservas de Hoteles
+// Proyecto4: Reservas de Hoteles
 
 // Importar librerias
 const express = require('express');
