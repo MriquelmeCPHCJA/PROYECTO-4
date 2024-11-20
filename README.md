@@ -226,7 +226,7 @@ logré los siguientes objetivos en este proyecto:
 * **Documentación:** Se ha documentado la API utilizando Swagger para facilitar su uso y mantenimiento.
 
 ## 🌎 Despliegue
-La aplicación está desplegada en **Render.com**. Puedes acceder a ella en la siguiente dirección: [URL de despliegue]
+La aplicación está desplegada en **Render.com**. Puedes acceder a ella en la siguiente dirección: [LINK](https://proyecto-4-prfw.onrender.com/)
 
 ## 📚 Resumen de la experiencia en el Proyecto 4: Reservas Hoteleras
 Esta experiencia me ha permitido aplicar de manera práctica los conceptos aprendidos en el bootcamp sobre Node.js, Express.js, manejo de datos y desarrollo de APIs REST.

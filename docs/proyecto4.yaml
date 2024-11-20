@@ -6,7 +6,8 @@ info:
     email: marcelo.riquelme@cph-cja.cl
   version: 1.0.0
 servers:
-  - url: http://localhost:3500/api
+  - url: https://proyecto-4-prfw.onrender.com/api
+    description: Producción
 paths:
   /api/reservas:
     post:
