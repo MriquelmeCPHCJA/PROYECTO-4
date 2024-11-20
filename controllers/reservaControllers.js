@@ -138,7 +138,7 @@ const consultarReservasPorId = (req, res) => {
     };
 };
 
-// Actualizar una reserva
+// Actualizar una reserva por ID
 const actualizaReserva = (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -162,5 +162,33 @@ const actualizaReserva = (req, res) => {
           }
       );
     }
+
+};
+
+// Eliminar una reserva por ID
+const eliminaReserva = (req, res) => { 
+
+    try {
+        const id = parseInt(req.params.id);
+        const reservaToDelete = reservas.findIndex(r => r.id === id);
+
+        if (reservaToDelete === -1) {
+            throw new Error('Reserva no encontrada');
+        };
+
+        reservas.splice(reservaToDelete, 1);
+        return res.status(200).json(
+          { 
+              msg: 'Reserva eliminada con éxito' 
+          }
+        );
+
+    } catch (error) {
+        return res.status(404).json(
+          { 
+              msg: error.message 
+          }
+        );
+    };
 
 };
